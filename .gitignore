@@ -8,6 +8,9 @@
 *.gii
 *.surf.gii
 
+# Permitir archivos de señales BOLD de la carpeta Grafos/boldconn_extracted/
+!Grafos/boldconn_extracted/*.nii.gz
+
 # --- Datos BIDS originales (descargar desde OpenNeuro) ---
 datos_originales/
 
