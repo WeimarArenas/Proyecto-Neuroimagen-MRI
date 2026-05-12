@@ -48,6 +48,16 @@ OpenNeuro/
 │       ├── *_desc-denoised_bold.nii.gz       # Imágenes denoised
 │       └── *_timeseries_motor_AAL.csv        # Series temporales (26 ROIs)
 │
+├── Grafos/                  # Análisis de teoría de grafos 
+│   ├── grafos_clase.ipynb   # Notebook con análisis de grafos, métricas y dashboard 2D/3D
+│   ├── demograficos.csv     # Metadatos del grupo (pre/post) de cada sujeto
+│   ├── umbrales_minimos.csv # Densidad mínima requerida para mantener la red conectada por sujeto
+│   ├── resultados_auc_todas_las_redes.csv  # Valores consolidados de AUC para todas las redes
+│   ├── resultados_metricas_por_umbral.csv # Métricas calculadas para todos los umbrales (0.2 a 0.5)
+│   └── boldconn_extracted/  # Señales BOLD piloto para pruebas portátiles rápidas
+│       ├── sub-00_ses-{pre,post}_task-rest_desc-denoised_bold.nii.gz
+│       └── sub-01_ses-{pre,post}_task-rest_desc-denoised_bold.nii.gz
+│
 ├── run_fmriprep.sh          # Script de preprocesamiento (Docker + fMRIPrep)
 ├── run_conn_all.py          # Pipeline principal: smoothing → denoising → ROIs
 ├── fix_missing_subjects.py  # Normalización T1w→MNI para sub-15/sub-18 (dipy)
@@ -57,6 +67,7 @@ OpenNeuro/
 ├── requirements.txt         # Dependencias Python
 ├── license.txt              # Licencia FreeSurfer
 └── work/                    # Archivos intermedios de fMRIPrep (temporal)
+
 ```
 
 ---
@@ -288,12 +299,18 @@ sub-29  sub-30  sub-33  sub-34  sub-35
 
 ---
 
-## Pasos Pendientes
+## Estado de los Análisis
+ 
+### Análisis
+1. **Matriz de correlación:** Extracción de series temporales del BOLD preprocesado y denoised utilizando el atlas de Schaefer (400 ROIs, 7 redes de Yeo). Cálculo de matrices de conectividad funcional de Pearson completas para todas las sesiones de los sujetos.
+2. **Análisis de grafos y Visualización:** 
+   - **Cálculo de Umbrales:** Búsqueda automatizada de densidad de umbral mínimo que mantiene el grafo conectado por sujeto.
+   - **Métricas Complejas:** Cálculo de métricas globales (Eficiencia, Modularidad, Grado Promedio, Clustering) y nodales (Grado, Betweenness, Clustering, Eficiencia) a lo largo de un rango proporcional de umbrales (0.2 a 0.5).
+   - **Integración por AUC:** Integración de métricas mediante el Área Bajo la Curva (AUC) para obtener valores robustos de análisis.
+   - **Dashboard Interactivo Portátil:** Visualizador dinámico.
 
-Estos análisis se realizarán en fases posteriores:
-1. **Matriz de correlación** entre ROIs motoras
-2. **Análisis de grafos** de la red motora
-3. **ICA** (Análisis de Componentes Independientes)
+### Análisis Pendientes
+3. **ICA** (Análisis de Componentes Independientes) para comparar espacialmente redes de estado de reposo (RSNs).
 
 ---
 
@@ -335,11 +352,15 @@ python run_conn_all.py
 | nilearn | 0.13.1 | Smoothing, denoising, extracción de ROIs |
 | nibabel | 5.4.2 | Lectura/escritura de imágenes NIfTI |
 | dipy | 1.11.0 | Registro T1w→MNI (diffeomórfico) |
+| bctpy | 0.5.2 | Cálculo de métricas de redes complejas (Teoría de Grafos) |
+| networkx | 3.0 | Análisis de grafos, modelado de redes y comprobaciones |
 | numpy | 2.2.6 | Computación numérica |
 | pandas | 2.3.3 | Manejo de tablas y CSVs |
 | scipy | 1.15.3 | Filtros y procesamiento de señal |
 | scikit-learn | 1.7.2 | Dependencia de nilearn |
-| matplotlib | 3.10.8 | Visualización |
+| plotly | 5.15.0 | Renderizado de gráficos interactivos 2D y Red Cerebral 3D |
+| ipywidgets | 8.0.0 | Controles interactivos y lógica de filtrado del Dashboard |
+| matplotlib | 3.10.8 | Visualización estática |
 | Python | 3.10.11 | Lenguaje principal |
 
 ---

@@ -54,3 +54,7 @@ desktop.ini
 
 # --- FreeSurfer license ---
 license.txt
+
+# --- Large generated CSV files ---
+Grafos/resultados_metricas_por_umbral.csv
+

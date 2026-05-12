@@ -21,6 +21,8 @@
 nilearn>=0.13.0
 nibabel>=5.0.0
 dipy>=1.10.0
+bctpy>=0.5.2
+networkx>=3.0
 
 # --- Computación científica ---
 numpy>=1.24.0
@@ -31,3 +33,6 @@ statsmodels>=0.14.0
 
 # --- Visualización ---
 matplotlib>=3.7.0
+plotly>=5.15.0
+ipywidgets>=8.0.0
+
